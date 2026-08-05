@@ -84,7 +84,6 @@
     var progressBtns = progressWrap ? Array.prototype.slice.call(progressWrap.querySelectorAll('button')) : [];
     var cardCount = cards.length;
     var segments = Math.max(1, cardCount - 1);
-    var pinQuery = window.matchMedia('(min-width: 901px)');
     var pinActive = false;
     var currentTop = 0;
     var ticking = false;
@@ -93,10 +92,6 @@
 
     function sizePinWrap() {
       pinWrap.style.height = (cardCount * window.innerHeight) + 'px';
-    }
-
-    function clearPinWrap() {
-      pinWrap.style.height = '';
     }
 
     function setActiveDot(index) {
@@ -146,22 +141,7 @@
       sizePinWrap();
       updateOnScroll();
     }
-    function disablePin() {
-      pinActive = false;
-      clearPinWrap();
-      cards.forEach(function (card, i) {
-        card.style.transform = '';
-        card.classList.toggle('is-active', i === 0);
-      });
-      setActiveDot(0);
-    }
-
-    function syncMode(e) {
-      if (e.matches) enablePin(); else disablePin();
-    }
-    syncMode(pinQuery);
-    if (pinQuery.addEventListener) pinQuery.addEventListener('change', syncMode);
-    else if (pinQuery.addListener) pinQuery.addListener(syncMode);
+    enablePin();
 
     window.addEventListener('scroll', requestTick, { passive: true });
     window.addEventListener('resize', function () {

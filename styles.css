@@ -11,6 +11,7 @@
   --cream-deep:  #d5edbd;
   --ink:         #12261a;
   --white:       #ffffff;
+  --gold-bridge: #D9A441; /* muted antique gold — sits between the sea-green and the logo's amber, ties the two together */
 
   --font: 'Helvetica Neue', 'Switzer', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
 
@@ -128,12 +129,12 @@ h1,h2,h3,h4,p{ margin: 0; }
   letter-spacing: .01em;
   color: var(--ink);
 }
-.logo-icon{
-  width: 26px;
-  height: 26px;
+.logo-img{
+  height: 42px;
+  width: auto;
   flex: none;
+  display: block;
 }
-.logo-accent{ color: var(--green); }
 
 .nav-links{
   display: flex;
@@ -254,7 +255,6 @@ h1,h2,h3,h4,p{ margin: 0; }
   display: flex; align-items: center; justify-content: space-between;
 }
 .mobile-menu .logo{ color: #fff; }
-.mobile-menu .logo-accent{ color: var(--cream); }
 .mobile-close{
   width: 40px; height: 40px;
   border-radius: 10px;
@@ -596,31 +596,12 @@ h2.title, h1.title{
   width: 38px;
 }
 
-/* mobile / reduced-motion fallback: normal stacked flow, no pinning */
+/* mobile: keep the pinned stacking-card interaction, just re-flow each
+   card to a single column (image over content) instead of side-by-side */
 @media (max-width: 900px){
-  .pin-progress{ display: none; }
-  .pin-wrap{ height: auto !important; }
-  .pin-viewport{
-    position: static;
-    height: auto;
-    overflow: visible;
-    display: block;
-  }
-  .pin-track{ display: flex; flex-direction: column; gap: 1.5rem; height: auto; }
-  .pin-viewport .company-card{
-    position: static;
-    inset: auto;
-    transform: none !important;
-    box-shadow: none !important;
-    z-index: auto !important;
-    pointer-events: auto;
-    grid-template-columns: 1fr;
-    border-radius: var(--radius-l);
-    overflow: hidden;
-    background: var(--cream);
-  }
-  .company-media{ aspect-ratio: 4/3; }
-  .company-panel{ padding: 1.75rem; }
+  .company-card{ grid-template-columns: 1fr; grid-template-rows: 40% 60%; }
+  .company-panel{ padding: 1.5rem; }
+  .pin-progress{ right: 1.25rem; bottom: 1.25rem; }
 }
 
 /* ---------- what drives us ----------------------------------------------- */
@@ -829,7 +810,7 @@ h2.title, h1.title{
   font-weight: 400;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--gold-bridge);
   margin-bottom: .3rem;
 }
 .footer-col a{
@@ -850,7 +831,7 @@ h2.title, h1.title{
   border-top: 1px solid var(--line);
 }
 .footer-bottom .logo{ color: #fff; font-size: .95rem; }
-.footer-bottom .logo-accent{ color: var(--cream); }
+.footer-logo-img{ height: 56px; }
 .footer-copy{ font-size: .82rem; font-weight: 200; color: var(--text-faint); }
 
 /* ---------- responsive: nav / general -------------------------------------- */
