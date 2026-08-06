@@ -10,6 +10,22 @@
   onHeaderScroll();
   window.addEventListener('scroll', onHeaderScroll, { passive: true });
 
+  /* ---------------- background video: play only while visible ---------------- */
+  if ('IntersectionObserver' in window) {
+    var videoObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var v = entry.target;
+        if (entry.isIntersecting) {
+          var playPromise = v.play();
+          if (playPromise && playPromise.catch) playPromise.catch(function () {});
+        } else {
+          v.pause();
+        }
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('video[data-auto]').forEach(function (v) { videoObserver.observe(v); });
+  }
+
   /* ---------------- mobile menu ---------------- */
   var menuOpenBtn = document.getElementById('menu-open');
   var menuCloseBtn = document.getElementById('menu-close');

@@ -383,6 +383,14 @@ h2.title, h1.title{
 @media (prefers-reduced-motion: reduce){
   .hero-video{ display: none; }
 }
+@media (max-width: 640px){
+  .hero-video, .hero-overlay{
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+    border-radius: var(--radius-m);
+  }
+}
 .hero-inner{
   position: relative;
   z-index: 1;
@@ -436,27 +444,7 @@ h2.title, h1.title{
   align-items: center;
 }
 .about-copy .title{ margin-bottom: 1.25rem; }
-.about-copy .lead{ margin-bottom: 1.75rem; }
-
-.guarantee{
-  display: flex;
-  gap: .9rem;
-  align-items: flex-start;
-  margin-top: 2rem;
-  padding-top: 1.75rem;
-  border-top: 1px solid var(--line);
-  max-width: 40ch;
-}
-.guarantee-badge{
-  flex: none;
-  width: 26px; height: 26px;
-  border-radius: 50%;
-  background: var(--green);
-  color: #fff;
-  display: flex; align-items: center; justify-content: center;
-}
-.guarantee-badge svg{ width: 13px; height: 13px; }
-.guarantee p{ font-size: .92rem; color: var(--text-dim); }
+.about-copy .lead{ margin-bottom: 0; }
 
 .about-figure{
   position: relative;
@@ -525,70 +513,46 @@ h2.title, h1.title{
 }
 
 .company-panel{
+  position: relative;
   background: var(--cream);
   color: var(--ink);
   padding: clamp(2rem, 4vw, 4rem);
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: .35rem;
-  overflow-y: auto;
+  text-align: center;
+  gap: .9rem;
+  overflow: hidden;
 }
 .company-num{
-  font-size: .85rem;
-  font-weight: 400;
-  color: rgba(18,38,26,0.5);
-  margin-bottom: .5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(6rem, 16vw, 12rem);
+  font-weight: 200;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: rgba(18,38,26,0.05);
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+.company-name, .company-tagline, .company-panel > .btn-rect{
+  position: relative;
+  z-index: 1;
 }
 .company-name{
-  font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+  font-size: clamp(1.9rem, 3.2vw, 2.6rem);
   font-weight: 200;
   letter-spacing: -0.01em;
-  margin-bottom: .35rem;
 }
-.company-sector{
-  font-size: .92rem;
+.company-tagline{
+  font-size: 1rem;
   font-weight: 300;
-  color: var(--green);
-  margin-bottom: 1.3rem;
-}
-.company-label{
-  font-size: .72rem;
-  font-weight: 400;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: rgba(18,38,26,0.5);
-  margin-bottom: .8rem;
-}
-.company-solutions{
-  display: flex;
-  flex-direction: column;
-  gap: .6rem;
-  margin-bottom: 1.4rem;
-}
-.company-solutions li{
-  display: flex;
-  align-items: center;
-  gap: .7rem;
-  font-size: .92rem;
-  color: var(--ink);
-}
-.sol-icon{
-  flex: none;
-  width: 30px; height: 30px;
-  border-radius: 8px;
-  background: var(--green);
-  color: #fff;
-  display: flex; align-items: center; justify-content: center;
-}
-.sol-icon svg{ width: 14px; height: 14px; }
-
-.company-desc{
-  font-size: .95rem;
-  color: rgba(18,38,26,0.68);
-  max-width: 40ch;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
+  color: rgba(18,38,26,0.6);
+  max-width: 30ch;
 }
 
 .pin-progress{
@@ -614,10 +578,15 @@ h2.title, h1.title{
 }
 
 /* mobile: keep the pinned stacking-card interaction, just re-flow each
-   card to a single column (image over content) instead of side-by-side */
+   card to a single column (image over content) instead of side-by-side.
+   Content is now minimal (name, tagline, one link) so it fits centered
+   with no internal scrolling. */
 @media (max-width: 900px){
-  .company-card{ grid-template-columns: 1fr; grid-template-rows: 40% 60%; }
-  .company-panel{ padding: 1.5rem; }
+  .company-card{ grid-template-columns: 1fr; grid-template-rows: 42% 58%; }
+  .company-panel{ padding: 1.5rem; gap: .7rem; }
+  .company-name{ font-size: clamp(1.5rem, 6vw, 1.9rem); }
+  .company-tagline{ font-size: .88rem; }
+  .btn-rect{ padding: .6rem 1.05rem; font-size: .8rem; }
   .pin-progress{ right: 1.25rem; bottom: 1.25rem; }
 }
 
@@ -625,39 +594,29 @@ h2.title, h1.title{
 
 .drives-grid{
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
+  max-width: 32rem;
+  margin: 0 auto;
+  text-align: center;
   gap: clamp(1.5rem, 3vw, 2.5rem);
 }
-.drives-col{
-  padding-left: clamp(1.5rem, 3vw, 2.5rem);
-  border-left: 1px solid var(--line);
-}
-.drives-col:first-child{
-  padding-left: 0;
-  border-left: none;
-}
-.drives-num{
-  display: block;
-  font-size: .78rem;
-  font-weight: 400;
-  color: var(--text-faint);
-  margin-bottom: 1rem;
-}
 .drives-col h3{
-  font-size: 1.05rem;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 200;
-  margin-bottom: .7rem;
+  letter-spacing: -0.01em;
+  margin-bottom: .9rem;
 }
 .drives-col p{
-  font-size: .9rem;
+  font-size: .95rem;
   color: var(--text-dim);
-  line-height: 1.6;
+  line-height: 1.65;
 }
 .pillar-chips{
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: .5rem;
-  margin-top: 1rem;
+  margin-top: 1.4rem;
 }
 .pillar-chips span{
   font-size: .74rem;
@@ -665,20 +624,6 @@ h2.title, h1.title{
   border: 1px solid var(--line);
   padding: .32rem .65rem;
   border-radius: 100px;
-}
-
-@media (max-width: 760px){
-  .drives-grid{ grid-template-columns: 1fr; gap: 1.75rem; }
-  .drives-col{
-    padding-left: 0;
-    padding-top: 1.5rem;
-    border-left: none;
-    border-top: 1px solid var(--line);
-  }
-  .drives-col:first-child{
-    padding-top: 0;
-    border-top: none;
-  }
 }
 
 /* ---------- contact ----------------------------------------------------- */
