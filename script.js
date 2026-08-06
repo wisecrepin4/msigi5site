@@ -90,6 +90,77 @@
     revealEls.forEach(function (el) { el.classList.add('in-view'); });
   }
 
+  /* ---------------- hero title: decode reveal ---------------- */
+  var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var DECODE_GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+  function decodeReveal(el, opts) {
+    if (!el || el.dataset.twDone) return;
+    el.dataset.twDone = '1';
+    opts = opts || {};
+    var frameTime = opts.frameTime || 28;
+    var scrambleFrames = opts.scrambleFrames || 5;
+    var stagger = opts.stagger || 24;
+
+    // measure each character's natural width up front so swapping in random
+    // glyphs during the scramble never reflows the line — the box stays put,
+    // only the glyph inside it changes.
+    var cs = getComputedStyle(el);
+    var canvas = decodeReveal._canvas || (decodeReveal._canvas = document.createElement('canvas'));
+    var ctx = canvas.getContext('2d');
+    ctx.font = cs.fontStyle + ' ' + cs.fontWeight + ' ' + cs.fontSize + '/' + cs.lineHeight + ' ' + cs.fontFamily;
+
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+    var textNodes = [];
+    var n;
+    while ((n = walker.nextNode())) textNodes.push(n);
+
+    var items = [];
+    textNodes.forEach(function (node) {
+      var frag = document.createDocumentFragment();
+      node.textContent.split('').forEach(function (ch) {
+        var span = document.createElement('span');
+        span.className = 'tw-char';
+        span.textContent = ch;
+        frag.appendChild(span);
+        if (/\S/.test(ch)) {
+          var w = ctx.measureText(ch).width;
+          span.style.display = 'inline-block';
+          span.style.width = Math.ceil(w) + 'px';
+          span.style.textAlign = 'center';
+          items.push({ span: span, final: ch });
+        } else {
+          span.classList.add('tw-shown', 'tw-final');
+        }
+      });
+      node.parentNode.replaceChild(frag, node);
+    });
+
+    if (prefersReducedMotion) {
+      items.forEach(function (it) { it.span.classList.add('tw-shown', 'tw-final'); });
+      return;
+    }
+
+    items.forEach(function (item, i) {
+      setTimeout(function () {
+        item.span.classList.add('tw-shown');
+        var frame = 0;
+        var timer = setInterval(function () {
+          if (frame < scrambleFrames) {
+            item.span.textContent = DECODE_GLYPHS[(Math.random() * DECODE_GLYPHS.length) | 0];
+            frame++;
+          } else {
+            item.span.textContent = item.final;
+            item.span.classList.add('tw-final');
+            clearInterval(timer);
+          }
+        }, frameTime);
+      }, i * stagger);
+    });
+  }
+
+  decodeReveal(document.querySelector('.hero-title'));
+
   /* ---------------- pinned scroll: companies (stacking cards) ---------------- */
   var pinWrap = document.getElementById('pin-wrap');
   var pinTrack = document.getElementById('pin-track');
