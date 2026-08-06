@@ -388,13 +388,6 @@ h2.title, h1.title{
 @media (prefers-reduced-motion: reduce){
   .hero-video{ display: none; }
 }
-@media (max-width: 640px){
-  .hero-media{
-    left: 1rem;
-    right: 1rem;
-    border-radius: var(--radius-m);
-  }
-}
 .hero-inner{
   position: relative;
   z-index: 1;
