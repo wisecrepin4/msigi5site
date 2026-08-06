@@ -633,9 +633,8 @@ h2.title, h1.title{
   display: grid;
   grid-template-columns: .9fr 1.1fr;
   gap: clamp(2.5rem, 6vw, 5rem);
+  align-items: center;
 }
-.contact-copy .title{ margin-bottom: 1.1rem; }
-.contact-copy .lead{ margin-bottom: 2rem; }
 
 .info-cards{
   display: grid;
