@@ -90,69 +90,6 @@
     revealEls.forEach(function (el) { el.classList.add('in-view'); });
   }
 
-  /* ---------------- hero title: decode reveal ---------------- */
-  var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var DECODE_GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-  function decodeReveal(el, opts) {
-    if (!el || el.dataset.twDone) return;
-    el.dataset.twDone = '1';
-    opts = opts || {};
-    var frameTime = opts.frameTime || 28;
-    var scrambleFrames = opts.scrambleFrames || 5;
-    var stagger = opts.stagger || 24;
-
-    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
-    var textNodes = [];
-    var n;
-    while ((n = walker.nextNode())) textNodes.push(n);
-
-    var items = [];
-    textNodes.forEach(function (node) {
-      var frag = document.createDocumentFragment();
-      node.textContent.split('').forEach(function (ch) {
-        var span = document.createElement('span');
-        span.className = 'tw-char';
-        span.textContent = ch;
-        frag.appendChild(span);
-        if (/\S/.test(ch)) {
-          items.push({ span: span, final: ch });
-        } else {
-          span.classList.add('tw-shown');
-        }
-      });
-      node.parentNode.replaceChild(frag, node);
-    });
-
-    if (prefersReducedMotion) {
-      items.forEach(function (it) { it.span.classList.add('tw-shown'); });
-      return;
-    }
-
-    // width-locking during the scramble is done purely in CSS with `em`
-    // units (see .tw-scrambling) so it can never desync from the font's
-    // actual rendered size — no JS measurement, no race with webfont
-    // loading or viewport timing.
-    items.forEach(function (item, i) {
-      setTimeout(function () {
-        item.span.classList.add('tw-shown', 'tw-scrambling');
-        var frame = 0;
-        var timer = setInterval(function () {
-          if (frame < scrambleFrames) {
-            item.span.textContent = DECODE_GLYPHS[(Math.random() * DECODE_GLYPHS.length) | 0];
-            frame++;
-          } else {
-            item.span.textContent = item.final;
-            item.span.classList.remove('tw-scrambling');
-            clearInterval(timer);
-          }
-        }, frameTime);
-      }, i * stagger);
-    });
-  }
-
-  decodeReveal(document.querySelector('.hero-title'));
-
   /* ---------------- pinned scroll: companies (stacking cards) ---------------- */
   var pinWrap = document.getElementById('pin-wrap');
   var pinTrack = document.getElementById('pin-track');

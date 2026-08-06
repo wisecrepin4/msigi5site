@@ -30,10 +30,6 @@ html{ scroll-behavior: smooth; }
   *{ animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
 }
 
-/* ---------- hero title: decode reveal ---------- */
-.tw-char{ opacity: 0; }
-.tw-char.tw-shown{ opacity: 1; }
-.tw-char.tw-scrambling{ display: inline-block; width: .62em; text-align: center; }
 
 body{
   margin: 0;
