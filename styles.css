@@ -368,6 +368,7 @@ h2.title, h1.title{
   inset: 0;
   z-index: 0;
   overflow: hidden;
+  background: var(--green-dark); /* skeleton shown instantly before the CDN video decodes */
 }
 .hero-video{
   position: absolute;
@@ -511,22 +512,10 @@ h2.title, h1.title{
   overflow: hidden;
 }
 .company-num{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: clamp(4.5rem, 12vw, 9rem);
-  font-weight: 200;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  color: rgba(18,38,26,0.05);
-  z-index: 0;
-  pointer-events: none;
-  user-select: none;
-}
-.company-name, .company-tagline, .company-panel > .btn-rect{
-  position: relative;
-  z-index: 1;
+  font-size: .8rem;
+  font-weight: 400;
+  letter-spacing: .06em;
+  color: rgba(18,38,26,0.45);
 }
 .company-name{
   font-size: clamp(1.6rem, 2.6vw, 2.15rem);
