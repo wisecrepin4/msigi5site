@@ -475,11 +475,11 @@ h1.title {
   position: absolute;
   inset: 0;
   background: rgba(
-    29,
-    54,
-    43,
-    0.6
-  ); /* --green-dark as a flat scrim — keeps the video subordinate to the flat-color language of the rest of the site */
+    62,
+    107,
+    87,
+    0.8
+  ); /* --green at high opacity — tints the video to match the site's flat sea-green rather than letting its own dark/varied tones show through */
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-video {
