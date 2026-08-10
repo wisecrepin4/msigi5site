@@ -54,7 +54,7 @@
 
   /* ---------------- active nav link on scroll ---------------- */
   var navLinks = document.querySelectorAll('[data-nav-link]');
-  var sections = ['home', 'about', 'companies', 'contact']
+  var sections = ['home', 'companies', 'contact']
     .map(function (id) { return document.getElementById(id); })
     .filter(Boolean);
 
